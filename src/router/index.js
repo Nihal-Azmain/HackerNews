@@ -1,37 +1,37 @@
 import { createRouter, createWebHistory } from "vue-router";
-
+import ListView from "../views/ListView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
       name: "home",
-      component: () => import("../views/HomeView.vue"),
+      component: ListView,
     },
     {
       path: "/ask",
       name: "ask",
-      component: () => import("../views/AskView.vue"),
+      component: ListView,
     },
     {
       path: "/best",
       name: "best",
-      component: () => import("../views/BestView.vue"),
+      component: ListView,
     },
     {
       path: "/new",
       name: "new",
-      component: () => import("../views/NewView.vue"),
+      component: ListView,
     },
     {
       path: "/show",
       name: "show",
-      component: () => import("../views/ShowView.vue"),
+      component: ListView,
     },
     {
       path: "/jobs",
       name: "jobs",
-      component: () => import("../views/JobsView.vue"),
+      component: ListView,
     },
   ],
 });
