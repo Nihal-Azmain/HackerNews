@@ -1,5 +1,5 @@
 <script></script>
 
-<template>HOME</template>
+<template>news</template>
 
 <style></style>

@@ -1,5 +1,5 @@
 <script></script>
 
-<template>HOME</template>
+<template>jobs</template>
 
 <style></style>
