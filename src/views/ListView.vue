@@ -1,31 +1,15 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { computed, watch } from "vue";
+import lists from "../components/lists.vue";
 const route = useRoute();
 
 const path = computed(() => route.name);
-console.log(path.value);
 </script>
 
 <template>
   {{ path }}
-  <article>
-    <h6>Title</h6>
-    <span>Footer</span>
-  </article>
-
-  <article>
-    <h6>Title</h6>
-    <span>Footer</span>
-  </article>
-  <article>
-    <h6>Title</h6>
-    <span>Footer</span>
-  </article>
-  <article>
-    <h6>Title</h6>
-    <span>Footer</span>
-  </article>
+  <lists />
 </template>
 
 <style>
@@ -39,5 +23,9 @@ article h6 {
 article footer {
   margin: 0px;
   padding: 0px;
+}
+.divider {
+  padding-left: 16px;
+  padding-right: 16px;
 }
 </style>

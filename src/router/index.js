@@ -5,32 +5,32 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "home",
+      name: "topstories",
       component: ListView,
     },
     {
       path: "/ask",
-      name: "ask",
+      name: "askstories",
       component: ListView,
     },
     {
       path: "/best",
-      name: "best",
+      name: "beststories",
       component: ListView,
     },
     {
       path: "/new",
-      name: "new",
+      name: "newstories",
       component: ListView,
     },
     {
       path: "/show",
-      name: "show",
+      name: "showstories",
       component: ListView,
     },
     {
       path: "/jobs",
-      name: "jobs",
+      name: "jobstories",
       component: ListView,
     },
   ],
