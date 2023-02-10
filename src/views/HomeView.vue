@@ -1,5 +1,0 @@
-<script></script>
-
-<template>HOME</template>
-
-<style></style>

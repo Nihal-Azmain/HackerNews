@@ -17,8 +17,7 @@ const store = createStore({
   actions: {
     async loadstories(context) {
       let data = await axios.get(context.state.api);
-      console.log(data);
-      context.commit("getStories", data);
+      context.commit("getStories", data.data);
     },
   },
 });
