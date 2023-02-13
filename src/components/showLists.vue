@@ -3,13 +3,12 @@ import { ref } from "vue";
 import axios from "axios";
 const prop = defineProps(["uniqueId"]);
 const details = ref(null);
-const api = ref(
-  `https://hacker-news.firebaseio.com/v0/item/${prop.uniqueId}.json?print=pretty`
-);
+const api = `https://hacker-news.firebaseio.com/v0/item/${prop.uniqueId}.json?print=pretty`;
 
 const apiCall = async () => {
-  details.value = await axios.get(api.value);
+  details.value = await axios.get(api);
 };
+
 apiCall();
 </script>
 
@@ -19,7 +18,7 @@ apiCall();
     <h6 v-if="details === null">Loading</h6>
     <div v-else>
       <h6 v-if="details.data.url">
-        <a :href="details.data.url">
+        <a :href="details.data.url" target="_blank">
           {{ details.data.title }}
         </a>
       </h6>
@@ -42,10 +41,12 @@ apiCall();
     </span>
 
     <span v-if="details !== null && details.data.descendants">
-      {{ details.data.descendants }} Comments
+      <router-link :to="`/items/${uniqueId}`">
+        {{ details.data.descendants }} Comments
+      </router-link>
     </span>
 
-    <!--  -->
+    <!-- CREATION TIME -->
     <span class="divider">|</span>
 
     <span v-if="details === null">Loading</span>

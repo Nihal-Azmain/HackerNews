@@ -7,11 +7,11 @@
         <RouterLink to="/"><strong>HackerNews</strong></RouterLink>
       </div>
       <ul>
-        <li><RouterLink to="/new">New</RouterLink></li>
-        <li><RouterLink to="/best">Best</RouterLink></li>
-        <li><RouterLink to="/show">Show</RouterLink></li>
-        <li><RouterLink to="/ask">Ask</RouterLink></li>
-        <li><RouterLink to="/jobs">Jobs</RouterLink></li>
+        <li><RouterLink to="/newstories">New</RouterLink></li>
+        <li><RouterLink to="/beststories">Best</RouterLink></li>
+        <li><RouterLink to="/showstories">Show</RouterLink></li>
+        <li><RouterLink to="/askstories">Ask</RouterLink></li>
+        <li><RouterLink to="/jobstories">Jobs</RouterLink></li>
       </ul>
     </nav>
   </header>

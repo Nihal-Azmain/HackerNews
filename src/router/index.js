@@ -1,37 +1,32 @@
 import { createRouter, createWebHistory } from "vue-router";
 import ListView from "../views/ListView.vue";
+import HomeView from "../views/HomeView.vue";
+import TopStoriesView from "../views/TopStoriesView.vue";
+import detailsView from "../views/detailsView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      name: "topstories",
-      component: ListView,
+      name: "home",
+      component: HomeView,
+      children: [
+        {
+          path: ":type",
+          name: "StoryList",
+          component: ListView,
+        },
+        {
+          path: "",
+          name: "TopStories",
+          component: TopStoriesView,
+        },
+      ],
     },
     {
-      path: "/ask",
-      name: "askstories",
-      component: ListView,
-    },
-    {
-      path: "/best",
-      name: "beststories",
-      component: ListView,
-    },
-    {
-      path: "/new",
-      name: "newstories",
-      component: ListView,
-    },
-    {
-      path: "/show",
-      name: "showstories",
-      component: ListView,
-    },
-    {
-      path: "/jobs",
-      name: "jobstories",
-      component: ListView,
+      path: "/items/:id",
+      name: "details",
+      component: detailsView,
     },
   ],
 });

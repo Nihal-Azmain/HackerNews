@@ -1,8 +1,9 @@
 <script setup>
-import { useRoute } from "vue-router";
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from "vue-router";
 import { computed, watch, ref } from "vue";
 import showLists from "../components/showLists.vue";
 import store from "../store/store";
+
 const route = useRoute();
 
 let stories = ref([]);
@@ -13,24 +14,29 @@ let currentPage = ref(0);
 let start = ref(0);
 let end = ref(Math.min(start.value + 25, stories.value.length));
 
-watch(
-  path,
-  async (newPath) => {
-    store.commit("changeApi", newPath);
-    try {
-      await store.dispatch("loadstories");
-      stories.value = store.state.storyIds;
-      success.value = true;
-      totalPages.value = Math.ceil(stories.value.length / 25);
-      currentPage.value = 1;
-      start.value = 0;
-      end.value = Math.min(start.value + 25, stories.value.length);
-    } catch {
-      success.value = false;
-    }
-  },
-  { immediate: true }
-);
+async function callApi(route) {
+  const { params } = route;
+  const { type } = params || {};
+  store.commit("changeApi", type);
+  try {
+    await store.dispatch("loadstories");
+    stories.value = store.state.storyIds;
+    success.value = true;
+    totalPages.value = Math.ceil(stories.value.length / 25);
+    currentPage.value = 1;
+    start.value = 0;
+    end.value = Math.min(start.value + 25, stories.value.length);
+  } catch {
+    success.value = false;
+  }
+}
+
+callApi(route);
+
+onBeforeRouteUpdate((to, from, next) => {
+  callApi(to);
+  next();
+});
 
 function goToNext() {
   currentPage.value = Math.min(currentPage.value + 1, totalPages.value);
@@ -63,7 +69,7 @@ function goToPrevious() {
   </div>
 </template>
 
-<style>
+<style scoped>
 .error {
   display: flex;
   justify-content: center;

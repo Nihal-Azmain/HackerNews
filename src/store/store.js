@@ -8,6 +8,7 @@ const store = createStore({
   },
   mutations: {
     changeApi(state, payload) {
+      // console.log(payload);
       state.api = `https://hacker-news.firebaseio.com/v0/${payload}.json?print=pretty`;
     },
     getStories(state, payload) {
