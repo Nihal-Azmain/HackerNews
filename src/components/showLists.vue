@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import axios from "axios";
 const prop = defineProps(["uniqueId"]);
 const details = ref(null);
@@ -9,7 +9,6 @@ const api = ref(
 
 const apiCall = async () => {
   details.value = await axios.get(api.value);
-  console.log(details.value.data);
 };
 apiCall();
 </script>
