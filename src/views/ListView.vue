@@ -9,7 +9,7 @@ let stories = ref([]);
 let success = ref(false);
 const path = computed(() => route.name);
 let totalPages = ref();
-let currentPage = ref(1);
+let currentPage = ref(0);
 let start = ref(0);
 let end = ref(Math.min(start.value + 25, stories.value.length));
 
@@ -22,13 +22,9 @@ watch(
       stories.value = store.state.storyIds;
       success.value = true;
       totalPages.value = Math.ceil(stories.value.length / 25);
-      // if (stories.value.length % 25 !== 0) totalPages.value++;
       currentPage.value = 1;
       start.value = 0;
       end.value = Math.min(start.value + 25, stories.value.length);
-      console.log("array length-> " + stories.value.length);
-      console.log("start value -> " + start.value);
-      console.log("end value -> " + end.value);
     } catch {
       success.value = false;
     }
@@ -40,22 +36,18 @@ function goToNext() {
   currentPage.value = Math.min(currentPage.value + 1, totalPages.value);
   start.value = 25 * (currentPage.value - 1);
   end.value = Math.min(start.value + 25, stories.value.length);
-  console.log("start value -> " + start.value);
-  console.log("end value -> " + end.value);
 }
 
 function goToPrevious() {
   currentPage.value = Math.max(currentPage.value - 1, 1);
   start.value = 25 * (currentPage.value - 1);
   end.value = Math.min(start.value + 25, stories.value.length);
-  console.log("start value -> " + start.value);
-  console.log("end value -> " + end.value);
 }
 </script>
 
 <template>
   {{ route.name }}
-  <div v-if="success" :key="currentPage">
+  <div v-if="success" :key="{ page: currentPage, route: route.name }">
     <showLists
       v-for="index in end - start"
       :key="index"

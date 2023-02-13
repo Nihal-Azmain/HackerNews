@@ -15,26 +15,41 @@ apiCall();
 
 <template>
   <article>
+    <!-- TITTLE -->
     <h6 v-if="details === null">Loading</h6>
-    <h6 v-else>{{ details.data.title }}</h6>
+    <div v-else>
+      <h6 v-if="details.data.url">
+        <a :href="details.data.url">
+          {{ details.data.title }}
+        </a>
+      </h6>
+      <h6 v-else>{{ details.data.title }}</h6>
+    </div>
 
+    <!-- SCORE -->
     <span v-if="details === null">Loading</span>
     <span v-else>{{ details.data.score }}</span>
 
+    <!-- BY -->
     <span class="divider">|</span>
 
     <span v-if="details === null">Loading</span>
     <span v-else>by {{ details.data.by }}</span>
 
+    <!-- COMMENTS -->
+    <span class="divider" v-if="details !== null && details.data.descendants">
+      |
+    </span>
+
+    <span v-if="details !== null && details.data.descendants">
+      {{ details.data.descendants }} Comments
+    </span>
+
+    <!--  -->
     <span class="divider">|</span>
 
     <span v-if="details === null">Loading</span>
     <span v-else>Created {{ details.data.time }} hours ago</span>
-
-    <span class="divider">|</span>
-
-    <span v-if="details === null">" "</span>
-    <span v-else>{{ details.data.descendants }} Comments</span>
   </article>
 </template>
 
