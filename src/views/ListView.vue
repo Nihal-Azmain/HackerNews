@@ -1,6 +1,6 @@
 <script setup>
-import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from "vue-router";
-import { computed, watch, ref } from "vue";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
+import { ref } from "vue";
 import showLists from "../components/showLists.vue";
 import store from "../store/store";
 
@@ -8,7 +8,6 @@ const route = useRoute();
 
 let stories = ref([]);
 let success = ref(false);
-const path = computed(() => route.name);
 let totalPages = ref();
 let currentPage = ref(0);
 let start = ref(0);

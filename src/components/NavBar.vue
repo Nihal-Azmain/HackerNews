@@ -4,7 +4,7 @@
   <header class="navbar">
     <nav class="container">
       <div class="brand-logo">
-        <RouterLink to="/"><strong>HackerNews</strong></RouterLink>
+        <RouterLink to="/topstories"><strong>HackerNews</strong></RouterLink>
       </div>
       <ul>
         <li><RouterLink to="/newstories">New</RouterLink></li>

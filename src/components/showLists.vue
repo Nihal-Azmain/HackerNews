@@ -7,6 +7,9 @@ const api = `https://hacker-news.firebaseio.com/v0/item/${prop.uniqueId}.json?pr
 
 const apiCall = async () => {
   details.value = await axios.get(api);
+  // details.value.data.time = new Date(
+  //   new Date().getTime() - details.value.data.time
+  // );
 };
 
 apiCall();
@@ -50,7 +53,7 @@ apiCall();
     <span class="divider">|</span>
 
     <span v-if="details === null">Loading</span>
-    <span v-else>Created {{ details.data.time }} hours ago</span>
+    <span v-else>Created {{ details.data.time }}</span>
   </article>
 </template>
 
