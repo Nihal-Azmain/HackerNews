@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
+import convertTime from "../components/GlobalFunctions/ConvertTime.js";
 const prop = defineProps(["parent", "padding"]);
 const details = ref(null);
 // const show = false;
@@ -10,8 +11,7 @@ const apiCall = async () => {
   );
   //   const sanitizer = new Sanitizer();
   //   setHTML(details.value.data.text, { sanitizer });
-  details.value.data.time = new Date(details.value.data.time);
-  details.value.data.time.toString("dd mm yyyy");
+  details.value.data.time = convertTime(details.value.data.time);
 };
 
 apiCall();
@@ -27,7 +27,7 @@ apiCall();
       <span class="divider">|</span>
 
       <span v-if="details === null">Loading</span>
-      <span v-else class="date"> Created {{ details.data.time }} </span>
+      <span v-else class="date"> Created {{ details.data.time }} ago</span>
       <br />
       <span v-if="details === null">Loading</span>
       <p v-else v-html="details.data.text"></p>

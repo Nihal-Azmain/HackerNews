@@ -1,5 +1,6 @@
 <script setup>
 import ShowComments from "../components/ShowComments.vue";
+import ConvertTime from "../components/GlobalFunctions/ConvertTime";
 import { useRoute, onBeforeRouteUpdate } from "vue-router";
 import { ref } from "vue";
 import axios from "axios";
@@ -11,9 +12,7 @@ async function callApi(route) {
   details.value = await axios.get(
     `https://hacker-news.firebaseio.com/v0/item/${route.params.id}.json?print=pretty`
   );
-  // details.value.data.time = new Date(
-  //   new Date().getTime() - details.value.data.time
-  // );
+  details.value.data.time = ConvertTime(details.value.data.time);
 }
 
 callApi(route);
@@ -53,7 +52,7 @@ onBeforeRouteUpdate((to, from, next) => {
     <span class="divider">|</span>
 
     <span v-if="details === null">Loading</span>
-    <span v-else>Created {{ details.data.time }}</span>
+    <span v-else>Created {{ details.data.time }} ago</span>
   </article>
   <div v-if="details?.data.kids">
     <ShowComments
