@@ -1,12 +1,12 @@
 <script setup>
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import showLists from "../components/showLists.vue";
 import store from "../store/store";
 
 const route = useRoute();
 
-let stories = ref([]);
+let stories = computed(() => store.getters.getStories);
 let success = ref(true);
 let totalPages = ref();
 let currentPage = ref(0);
@@ -14,12 +14,8 @@ let start = ref(0);
 let end = ref(Math.min(start.value + 25, stories.value.length));
 
 async function callApi(route) {
-  const { params } = route;
-  const { type } = params || {};
-  store.commit("changeApi", type);
   try {
-    await store.dispatch("loadstories");
-    stories.value = store.state.storyIds;
+    await store.dispatch("loadstories", route.params.type);
     success.value = true;
     totalPages.value = Math.ceil(stories.value.length / 25);
     currentPage.value = 1;
@@ -54,7 +50,7 @@ function goToPrevious() {
   <div v-if="success" :key="{ page: currentPage, route: route.name }">
     <showLists
       v-for="index in end - start"
-      :key="index"
+      :key="stories[start + index - 1]"
       :unique-id="stories[start + index - 1]"
     />
   </div>

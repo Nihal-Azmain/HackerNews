@@ -3,22 +3,24 @@ import axios from "axios";
 
 const store = createStore({
   state: {
-    api: "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty",
     storyIds: [],
   },
   mutations: {
-    changeApi(state, payload) {
-      // console.log(payload);
-      state.api = `https://hacker-news.firebaseio.com/v0/${payload}.json?print=pretty`;
-    },
-    getStories(state, payload) {
+    setStories(state, payload) {
       state.storyIds = payload;
     },
   },
   actions: {
-    async loadstories(context) {
-      let data = await axios.get(context.state.api);
-      context.commit("getStories", data.data);
+    async loadstories({ commit }, payload) {
+      let data = await axios.get(
+        `https://hacker-news.firebaseio.com/v0/${payload}.json?print=pretty`
+      );
+      commit("setStories", data.data);
+    },
+  },
+  getters: {
+    getStories(state) {
+      return state.storyIds;
     },
   },
 });
