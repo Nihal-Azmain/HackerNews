@@ -61,7 +61,7 @@ function hideChild() {
             v-for="kid in details.data.kids"
             :key="kid"
             :parent="kid"
-            :padding="padding + 10"
+            :padding="padding + 20"
           />
         </div>
       </div>
