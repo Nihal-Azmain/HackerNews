@@ -3,7 +3,6 @@ import axios from "axios";
 
 const store = createStore({
   state: {
-    api: "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty",
     storyIds: [],
   },
   mutations: {
@@ -16,8 +15,11 @@ const store = createStore({
     },
   },
   actions: {
-    async loadstories(context) {
-      let data = await axios.get(context.state.api);
+    async loadstories(context, payload) {
+      console.log(payload);
+      let data = await axios.get(
+        `https://hacker-news.firebaseio.com/v0/${payload}.json?print=pretty`
+      );
       context.commit("getStories", data.data);
     },
   },

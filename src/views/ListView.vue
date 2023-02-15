@@ -14,11 +14,8 @@ let start = ref(0);
 let end = ref(Math.min(start.value + 25, stories.value.length));
 
 async function callApi(route) {
-  const { params } = route;
-  const { type } = params || {};
-  store.commit("changeApi", type);
   try {
-    await store.dispatch("loadstories");
+    await store.dispatch("loadstories", route.params.type);
     stories.value = store.state.storyIds;
     success.value = true;
     totalPages.value = Math.ceil(stories.value.length / 25);
