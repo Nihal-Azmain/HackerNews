@@ -61,7 +61,7 @@ onBeforeRouteUpdate((to, from, next) => {
     <span v-else>Created {{ details.data.time }} ago</span>
   </article>
   <h1 class="error" v-else>404 NOT FOUND</h1>
-  <div v-if="details?.data.kids">
+  <div v-if="success && details?.data.kids">
     <ShowComments
       v-for="kid in details.data.kids"
       :key="kid"

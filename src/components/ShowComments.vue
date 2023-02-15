@@ -15,6 +15,7 @@ const apiCall = async () => {
     //   setHTML(details.value.data.text, { sanitizer });
     details.value.data.time = convertTime(details.value.data.time);
     success.value = true;
+    if (details.value === null) success.value = false;
   } catch {
     success.value = false;
   }
