@@ -4,28 +4,34 @@ import axios from "axios";
 import convertTime from "../components/GlobalFunctions/ConvertTime.js";
 const prop = defineProps(["parent", "padding"]);
 const details = ref(null);
+let success = ref(true);
 const show = ref(false);
 const apiCall = async () => {
-  details.value = await axios.get(
-    `https://hacker-news.firebaseio.com/v0/item/${prop.parent}.json?print=pretty`
-  );
-  //   const sanitizer = new Sanitizer();
-  //   setHTML(details.value.data.text, { sanitizer });
-  details.value.data.time = convertTime(details.value.data.time);
+  try {
+    details.value = await axios.get(
+      `https://hacker-news.firebaseio.com/v0/item/${prop.parent}.json?print=pretty`
+    );
+    //   const sanitizer = new Sanitizer();
+    //   setHTML(details.value.data.text, { sanitizer });
+    details.value.data.time = convertTime(details.value.data.time);
+    success.value = true;
+  } catch {
+    success.value = false;
+  }
 };
 apiCall();
 
-function callChild(event) {
+function callChild() {
   show.value = true;
 }
-function hideChild(event) {
+function hideChild() {
   show.value = false;
 }
 </script>
 
 <template>
   <div>
-    <article :style="{ paddingLeft: `${padding}px` }">
+    <article :style="{ paddingLeft: `${padding}px` }" v-if="success">
       <!-- BY -->
       <span v-if="details === null">Loading</span>
       <span v-else class="by">by {{ details.data.by }}</span>
@@ -54,11 +60,12 @@ function hideChild(event) {
             v-for="kid in details.data.kids"
             :key="kid"
             :parent="kid"
-            :padding="padding + 50"
+            :padding="padding + 10"
           />
         </div>
       </div>
     </article>
+    <h1 class="error" v-else>404 NOT FOUND</h1>
 
     <!-- <div v-if="details?.data.kids">
       <ShowComments
@@ -95,5 +102,10 @@ article footer {
 }
 .date {
   font-weight: bold;
+}
+.error {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 </style>

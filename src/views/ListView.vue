@@ -7,7 +7,7 @@ import store from "../store/store";
 const route = useRoute();
 
 let stories = ref([]);
-let success = ref(false);
+let success = ref(true);
 let totalPages = ref();
 let currentPage = ref(0);
 let start = ref(0);
@@ -59,7 +59,7 @@ function goToPrevious() {
       :unique-id="stories[start + index - 1]"
     />
   </div>
-  <h1 class="error" v-else>Loading</h1>
+  <h1 class="error" v-else>404 NOT FOUND</h1>
 
   <div class="navigation">
     <button @click="goToPrevious">&#60;</button>

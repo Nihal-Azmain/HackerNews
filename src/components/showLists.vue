@@ -3,19 +3,25 @@ import { ref } from "vue";
 import ConvertTime from "../components/GlobalFunctions/ConvertTime";
 import axios from "axios";
 const prop = defineProps(["uniqueId"]);
+let success = ref(true);
 const details = ref(null);
 const api = `https://hacker-news.firebaseio.com/v0/item/${prop.uniqueId}.json?print=pretty`;
 
 const apiCall = async () => {
-  details.value = await axios.get(api);
-  details.value.data.time = ConvertTime(details.value.data.time);
+  try {
+    details.value = await axios.get(api);
+    details.value.data.time = ConvertTime(details.value.data.time);
+    success.value = true;
+  } catch {
+    success.value = false;
+  }
 };
 
 apiCall();
 </script>
 
 <template>
-  <article>
+  <article v-if="success">
     <!-- TITTLE -->
     <h6 v-if="details === null">Loading</h6>
     <div v-else>
@@ -54,6 +60,8 @@ apiCall();
     <span v-if="details === null">Loading</span>
     <span v-else>Created {{ details.data.time }} ago</span>
   </article>
+
+  <h1 class="error" v-else>404 NOT FOUND</h1>
 </template>
 
 <style scoped>
@@ -74,5 +82,10 @@ article footer {
 .divider {
   padding-left: 16px;
   padding-right: 16px;
+}
+.error {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 </style>

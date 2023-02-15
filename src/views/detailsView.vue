@@ -7,12 +7,18 @@ import axios from "axios";
 
 const route = useRoute();
 const details = ref(null);
+let success = ref(true);
 
 async function callApi(route) {
-  details.value = await axios.get(
-    `https://hacker-news.firebaseio.com/v0/item/${route.params.id}.json?print=pretty`
-  );
-  details.value.data.time = ConvertTime(details.value.data.time);
+  try {
+    details.value = await axios.get(
+      `https://hacker-news.firebaseio.com/v0/item/${route.params.id}.json?print=pretty`
+    );
+    details.value.data.time = ConvertTime(details.value.data.time);
+    success.value = true;
+  } catch {
+    success.value = false;
+  }
 }
 
 callApi(route);
@@ -26,7 +32,7 @@ onBeforeRouteUpdate((to, from, next) => {
 <template>
   <div>comments</div>
 
-  <article>
+  <article v-if="success">
     <!-- TITTLE -->
     <h6 v-if="details === null">Loading</h6>
     <div v-else>
@@ -54,6 +60,7 @@ onBeforeRouteUpdate((to, from, next) => {
     <span v-if="details === null">Loading</span>
     <span v-else>Created {{ details.data.time }} ago</span>
   </article>
+  <h1 class="error" v-else>404 NOT FOUND</h1>
   <div v-if="details?.data.kids">
     <ShowComments
       v-for="kid in details.data.kids"
