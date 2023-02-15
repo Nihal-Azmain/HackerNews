@@ -51,7 +51,6 @@ function goToPrevious() {
 </script>
 
 <template>
-  {{ route.name }}
   <div v-if="success" :key="{ page: currentPage, route: route.name }">
     <showLists
       v-for="index in end - start"
