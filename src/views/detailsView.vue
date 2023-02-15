@@ -30,8 +30,6 @@ onBeforeRouteUpdate((to, from, next) => {
 </script>
 
 <template>
-  <div>comments</div>
-
   <article v-if="success">
     <!-- TITTLE -->
     <h6 v-if="details === null">Loading</h6>
