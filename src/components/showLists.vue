@@ -1,11 +1,15 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import ConvertTime from "../components/GlobalFunctions/ConvertTime";
 import axios from "axios";
-const prop = defineProps(["uniqueId"]);
+import store from "../store/store";
+
+const prop = defineProps(["index"]);
 let success = ref(true);
 const details = ref(null);
-const api = `https://hacker-news.firebaseio.com/v0/item/${prop.uniqueId}.json?print=pretty`;
+store.commit("changeIndex", prop.index);
+const uniqueId = computed(() => store.getters.getId);
+const api = `https://hacker-news.firebaseio.com/v0/item/${uniqueId.value}.json?print=pretty`;
 
 const apiCall = async () => {
   try {

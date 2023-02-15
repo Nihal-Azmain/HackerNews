@@ -1,27 +1,27 @@
 <script setup>
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import showLists from "../components/showLists.vue";
 import store from "../store/store";
 
 const route = useRoute();
-
-let stories = ref([]);
 let success = ref(true);
-let totalPages = ref();
-let currentPage = ref(0);
-let start = ref(0);
-let end = ref(Math.min(start.value + 25, stories.value.length));
+// let totalPages = ref();
+// let currentPage = ref(0);
+let start = computed(() => store.getters.getStartIndex);
+let end = computed(() => store.getters.getEndIndex);
+let totalPages = computed(() => store.getters.getTotalPage);
+let currentPage = computed(() => store.getters.getCurrentPage);
 
 async function callApi(route) {
   try {
     await store.dispatch("loadstories", route.params.type);
-    stories.value = store.state.storyIds;
     success.value = true;
-    totalPages.value = Math.ceil(stories.value.length / 25);
-    currentPage.value = 1;
-    start.value = 0;
-    end.value = Math.min(start.value + 25, stories.value.length);
+    store.commit("changeTotalPage");
+    store.commit("editCurrentPage");
+    console.log(totalPages.value);
+    // let start = computed(() => store.getters.getStartIndex);
+    // let end = computed(() => store.getters.getEndIndex);
   } catch {
     success.value = false;
   }
@@ -35,26 +35,26 @@ onBeforeRouteUpdate((to, from, next) => {
 });
 
 function goToNext() {
-  currentPage.value = Math.min(currentPage.value + 1, totalPages.value);
-  start.value = 25 * (currentPage.value - 1);
-  end.value = Math.min(start.value + 25, stories.value.length);
+  store.commit("nextPage");
+  console.log(start.value);
+  console.log(end.value);
+  // currentPage.value = computed(() => store.getters.getCurrentPage);
+  // start.value = computed(() => store.getters.getStartIndex);
+  // end.value = computed(() => store.getters.getEndIndex);
 }
 
 function goToPrevious() {
-  currentPage.value = Math.max(currentPage.value - 1, 1);
-  start.value = 25 * (currentPage.value - 1);
-  end.value = Math.min(start.value + 25, stories.value.length);
+  store.commit("previousPage");
+  // currentPage.value = computed(() => store.getters.getCurrentPage);
+  // start.value = computed(() => store.getters.getStartIndex);
+  // end.value = computed(() => store.getters.getEndIndex);
 }
 </script>
 
 <template>
   {{ route.name }}
   <div v-if="success" :key="{ page: currentPage, route: route.name }">
-    <showLists
-      v-for="index in end - start"
-      :key="index"
-      :unique-id="stories[start + index - 1]"
-    />
+    <showLists v-for="index in end - start" :key="index" :index="index" />
   </div>
   <h1 class="error" v-else>404 NOT FOUND</h1>
 
